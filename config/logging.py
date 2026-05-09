@@ -1,10 +1,13 @@
 """
 Logging configuration for PySpark BigQuery project.
 """
+
 import logging
 import sys
-from typing import Any, Dict
+from typing import Any
+
 import structlog
+
 from config.settings import get_app_config
 
 app_config = get_app_config()
@@ -12,14 +15,14 @@ app_config = get_app_config()
 
 def setup_logging() -> None:
     """Set up structured logging configuration."""
-    
+
     # Configure standard library logging
     logging.basicConfig(
         format="%(message)s",
         stream=sys.stdout,
-        level=getattr(logging, app_config.log_level.upper())
+        level=getattr(logging, app_config.log_level.upper()),
     )
-    
+
     # Configure structlog
     processors = [
         structlog.stdlib.filter_by_level,
@@ -30,12 +33,12 @@ def setup_logging() -> None:
         structlog.processors.StackInfoRenderer(),
         structlog.processors.format_exc_info,
     ]
-    
+
     if app_config.log_format == "json":
         processors.append(structlog.processors.JSONRenderer())
     else:
         processors.append(structlog.dev.ConsoleRenderer())
-    
+
     structlog.configure(
         processors=processors,
         wrapper_class=structlog.stdlib.BoundLogger,

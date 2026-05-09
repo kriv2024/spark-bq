@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "python .claude/hooks/format_py.py 2>/dev/null || true",
+            "timeout": 15,
+            "statusMessage": "Formatting..."
+          },
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "python .claude/hooks/run_tests.py 2>/dev/null || true",
+            "timeout": 60,
+            "statusMessage": "Running tests..."
+          }
+        ]
+      }
+    ]
+  }
+}

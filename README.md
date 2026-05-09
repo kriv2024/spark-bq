@@ -66,7 +66,7 @@ A comprehensive PySpark project template for data processing with Google BigQuer
    ```bash
    pip install -e .
    ```
-   
+
    Or install development dependencies:
    ```bash
    pip install -e .[dev,jupyter]
@@ -95,7 +95,7 @@ GOOGLE_APPLICATION_CREDENTIALS=path/to/your/service-account-key.json
 GOOGLE_CLOUD_PROJECT_ID=your-project-id
 BIGQUERY_DATASET=your_dataset_name
 
-# Spark Configuration  
+# Spark Configuration
 SPARK_APP_NAME=pyspark-bigquery-app
 SPARK_MASTER=local[*]
 
@@ -227,51 +227,6 @@ Start Jupyter Lab for interactive development:
 python -m jupyter lab --notebook-dir=notebooks
 ```
 
-## 🔐 Security Best Practices
+## License
 
-1. **Never commit credentials**: Use environment variables and `.env` files
-2. **Parameterized queries**: Always use parameterized queries for BigQuery
-3. **Least privilege**: Configure service accounts with minimal required permissions
-4. **Audit logging**: Enable audit logging for data access and processing
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Import errors**: Ensure PySpark is properly installed and SPARK_HOME is set if needed
-2. **BigQuery authentication**: Verify service account key path and permissions
-3. **Memory issues**: Adjust Spark memory settings in `config/settings.py`
-4. **Network connectivity**: Configure proxy settings if behind corporate firewall
-
-### Debugging
-
-1. Enable debug logging in `.env`:
-   ```env
-   LOG_LEVEL=DEBUG
-   DEBUG=true
-   ```
-
-2. Use VS Code debugger with breakpoints in Python files
-
-3. Check Spark UI at http://localhost:4040 during job execution
-
-## 📚 Additional Resources
-
-- [PySpark Documentation](https://spark.apache.org/docs/latest/api/python/)
-- [BigQuery Python Client](https://googleapis.dev/python/bigquery/latest/index.html)
-- [Spark BigQuery Connector](https://github.com/GoogleCloudDataproc/spark-bigquery-connector)
-
-## 🤝 Contributing
-
-1. Follow the established code style (Black, isort, flake8)
-2. Add tests for new functionality
-3. Update documentation as needed
-4. Use meaningful commit messages
-
-## 📄 License
-
-This project is licensed under the MIT License. See LICENSE file for details.
-
----
-
-**Happy Data Processing! 🚀**
+MIT
