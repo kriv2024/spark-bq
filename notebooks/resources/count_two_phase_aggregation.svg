@@ -1,0 +1,104 @@
+<svg width="900" height="680" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr-gray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#888"/>
+    </marker>
+    <marker id="arr-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f38ba8"/>
+    </marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a6e3a1"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="680" fill="#1e1e2e" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" fill="#cdd6f4" font-size="19" font-weight="bold" font-family="monospace">df.count() — Two-Phase Distributed Aggregation</text>
+
+  <!-- ── STAGE 1 ── -->
+  <rect x="20" y="55" width="860" height="238" rx="8" fill="#181825" stroke="#313244" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="35" y="74" fill="#585b70" font-size="12" font-family="monospace">STAGE 1  —  executor tasks run in parallel, no network I/O</text>
+
+  <!-- Partition boxes -->
+  <rect x="50"  y="84" width="200" height="58" rx="6" fill="#272740" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="150" y="109" text-anchor="middle" fill="#89b4fa" font-size="13" font-weight="bold" font-family="monospace">Partition 0</text>
+  <text x="150" y="130" text-anchor="middle" fill="#a6adc8" font-size="12" font-family="monospace">1,000 rows</text>
+
+  <rect x="350" y="84" width="200" height="58" rx="6" fill="#272740" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="450" y="109" text-anchor="middle" fill="#89b4fa" font-size="13" font-weight="bold" font-family="monospace">Partition 1</text>
+  <text x="450" y="130" text-anchor="middle" fill="#a6adc8" font-size="12" font-family="monospace">800 rows</text>
+
+  <rect x="650" y="84" width="200" height="58" rx="6" fill="#272740" stroke="#89b4fa" stroke-width="1.5"/>
+  <text x="750" y="109" text-anchor="middle" fill="#89b4fa" font-size="13" font-weight="bold" font-family="monospace">Partition 2</text>
+  <text x="750" y="130" text-anchor="middle" fill="#a6adc8" font-size="12" font-family="monospace">1,200 rows</text>
+
+  <!-- Arrows: partitions → partial HashAgg -->
+  <line x1="150" y1="142" x2="150" y2="166" stroke="#888" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+  <line x1="450" y1="142" x2="450" y2="166" stroke="#888" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+  <line x1="750" y1="142" x2="750" y2="166" stroke="#888" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- HashAggregate (Partial) boxes -->
+  <rect x="50"  y="168" width="200" height="104" rx="6" fill="#1c2e48" stroke="#74c7ec" stroke-width="1.5"/>
+  <text x="150" y="192" text-anchor="middle" fill="#74c7ec" font-size="12" font-weight="bold" font-family="monospace">HashAggregate</text>
+  <text x="150" y="210" text-anchor="middle" fill="#74c7ec" font-size="11" font-family="monospace">(Partial)</text>
+  <text x="150" y="234" text-anchor="middle" fill="#585b70" font-size="11" font-family="monospace">counts local rows</text>
+  <text x="150" y="256" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold" font-family="monospace">→ 1,000</text>
+
+  <rect x="350" y="168" width="200" height="104" rx="6" fill="#1c2e48" stroke="#74c7ec" stroke-width="1.5"/>
+  <text x="450" y="192" text-anchor="middle" fill="#74c7ec" font-size="12" font-weight="bold" font-family="monospace">HashAggregate</text>
+  <text x="450" y="210" text-anchor="middle" fill="#74c7ec" font-size="11" font-family="monospace">(Partial)</text>
+  <text x="450" y="234" text-anchor="middle" fill="#585b70" font-size="11" font-family="monospace">counts local rows</text>
+  <text x="450" y="256" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold" font-family="monospace">→ 800</text>
+
+  <rect x="650" y="168" width="200" height="104" rx="6" fill="#1c2e48" stroke="#74c7ec" stroke-width="1.5"/>
+  <text x="750" y="192" text-anchor="middle" fill="#74c7ec" font-size="12" font-weight="bold" font-family="monospace">HashAggregate</text>
+  <text x="750" y="210" text-anchor="middle" fill="#74c7ec" font-size="11" font-family="monospace">(Partial)</text>
+  <text x="750" y="234" text-anchor="middle" fill="#585b70" font-size="11" font-family="monospace">counts local rows</text>
+  <text x="750" y="256" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="bold" font-family="monospace">→ 1,200</text>
+
+  <!-- ── STAGE BOUNDARY ── -->
+  <line x1="20" y1="308" x2="880" y2="308" stroke="#f38ba8" stroke-width="2.5" stroke-dasharray="8,5"/>
+  <rect x="272" y="296" width="356" height="24" rx="4" fill="#1e1e2e"/>
+  <text x="450" y="313" text-anchor="middle" fill="#f38ba8" font-size="13" font-weight="bold" font-family="monospace">⚡ EXCHANGE (Shuffle) — Stage Boundary</text>
+
+  <!-- ── STAGE 2 ── -->
+  <rect x="20" y="324" width="860" height="244" rx="8" fill="#181825" stroke="#313244" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="35" y="343" fill="#585b70" font-size="12" font-family="monospace">STAGE 2  —  reducer tasks (after network transfer)</text>
+
+  <!-- Dashed red arrows: partial counts shuffle across network -->
+  <line x1="150" y1="272" x2="365" y2="378" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-red)"/>
+  <line x1="450" y1="272" x2="450" y2="378" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-red)"/>
+  <line x1="750" y1="272" x2="535" y2="378" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-red)"/>
+
+  <!-- Exchange node -->
+  <rect x="295" y="360" width="310" height="82" rx="6" fill="#3d1506" stroke="#fab387" stroke-width="1.5"/>
+  <text x="450" y="386" text-anchor="middle" fill="#fab387" font-size="12" font-weight="bold" font-family="monospace">Exchange</text>
+  <text x="450" y="406" text-anchor="middle" fill="#a6adc8" font-size="11" font-family="monospace">only partial counts travel the wire</text>
+  <text x="450" y="424" text-anchor="middle" fill="#585b70" font-size="11" font-family="monospace">[1000, 800, 1200] land on one task</text>
+
+  <!-- Arrow: Exchange → Final HashAgg -->
+  <line x1="450" y1="442" x2="450" y2="464" stroke="#888" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- HashAggregate (Final) -->
+  <rect x="295" y="466" width="310" height="82" rx="6" fill="#1a3520" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="450" y="492" text-anchor="middle" fill="#a6e3a1" font-size="12" font-weight="bold" font-family="monospace">HashAggregate</text>
+  <text x="450" y="510" text-anchor="middle" fill="#a6e3a1" font-size="11" font-family="monospace">(Final)</text>
+  <text x="450" y="530" text-anchor="middle" fill="#a6adc8" font-size="11" font-family="monospace">1,000 + 800 + 1,200</text>
+  <text x="450" y="548" text-anchor="middle" fill="#cdd6f4" font-size="14" font-weight="bold" font-family="monospace">= 3,000</text>
+
+  <!-- Arrow: Final HashAgg → Driver -->
+  <line x1="450" y1="548" x2="450" y2="590" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <!-- Driver -->
+  <rect x="350" y="592" width="200" height="56" rx="6" fill="#2d2040" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="450" y="617" text-anchor="middle" fill="#cba6f7" font-size="13" font-weight="bold" font-family="monospace">Driver</text>
+  <text x="450" y="638" text-anchor="middle" fill="#cdd6f4" font-size="12" font-family="monospace">returns: 3,000</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="662" x2="60" y2="662" stroke="#f38ba8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="65" y="666" fill="#585b70" font-size="11" font-family="monospace">network I/O (shuffle)</text>
+  <line x1="230" y1="662" x2="260" y2="662" stroke="#888" stroke-width="1.5"/>
+  <text x="265" y="666" fill="#585b70" font-size="11" font-family="monospace">local data flow</text>
+</svg>
