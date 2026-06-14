@@ -508,8 +508,8 @@ Job is slow or failing →
 | 03 — Partitioning & skew | — | ✅ | — |
 | 04 — Join strategies | — | ✅ | — |
 | 05 — Catalyst optimizer | — | ✅ | — |
-| 06 — AQE deep dive | — | 🔄 | — |
-| 07 — Memory model & spill | — | — | — |
+| 06 — AQE deep dive | — | ✅ | — |
+| 07 — Memory model & spill | — | 🔄 | — |
 | 08 — Caching & persistence | — | — | — |
 | 09 — Data formats & I/O | — | — | — |
 | 10 — Pipeline design | — | — | — |
