@@ -1,0 +1,177 @@
+<svg width="900" height="620" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#585b70"/></marker>
+    <marker id="p" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#cba6f7"/></marker>
+    <marker id="g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#a6e3a1"/></marker>
+    <marker id="r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#f38ba8"/></marker>
+  </defs>
+
+  <rect width="900" height="620" fill="#1e1e2e" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="bold" font-family="monospace">AQE Skew Join Optimization</text>
+  <text x="450" y="44" text-anchor="middle" fill="#585b70" font-size="10" font-family="monospace">orders ⋈ products ON product_id  ·  product_id=1 → 90% of rows</text>
+
+  <!-- Column headers -->
+  <rect x="20" y="52" width="415" height="24" rx="4" fill="#2d1515" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="227" y="69" text-anchor="middle" fill="#f38ba8" font-size="11" font-weight="bold" font-family="monospace">WITHOUT skew join opt  ✗</text>
+  <rect x="465" y="52" width="415" height="24" rx="4" fill="#152515" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="672" y="69" text-anchor="middle" fill="#a6e3a1" font-size="11" font-weight="bold" font-family="monospace">WITH skew join opt  ✓</text>
+
+  <!-- Divider -->
+  <line x1="450" y1="52" x2="450" y2="540" stroke="#313244" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- ══ SHUFFLE PARTITIONS ══ -->
+  <text x="30" y="96" fill="#585b70" font-size="10" font-family="monospace">SHUFFLE PARTITIONS  (200 → 5 via CoalesceShufflePartitions)</text>
+  <text x="465" y="96" fill="#585b70" font-size="10" font-family="monospace">AFTER OptimizeSkewedJoin  (5 → 9 sub-tasks)</text>
+
+  <!-- LEFT bars: 270px = 100 KiB -->
+  <text x="148" y="116" text-anchor="end" fill="#f38ba8" font-size="10" font-family="monospace">P-0 ★</text>
+  <rect x="152" y="103" width="270" height="17" rx="3" fill="#f38ba8" fill-opacity="0.85"/>
+  <text x="154" y="116" fill="#1e1e2e" font-size="9" font-weight="bold" font-family="monospace">99.9 KiB · 9,019 rows  ⚡</text>
+
+  <text x="148" y="134" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">P-1</text>
+  <rect x="152" y="122" width="15" height="14" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="170" y="134" fill="#585b70" font-size="10" font-family="monospace">5.4 KiB</text>
+
+  <text x="148" y="151" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">P-2</text>
+  <rect x="152" y="139" width="15" height="14" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="170" y="151" fill="#585b70" font-size="10" font-family="monospace">5.7 KiB</text>
+
+  <text x="148" y="168" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">P-3</text>
+  <rect x="152" y="156" width="8" height="14" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+
+  <text x="148" y="185" text-anchor="end" fill="#45475a" font-size="10" font-family="monospace">P-4</text>
+  <rect x="152" y="173" width="2" height="14" rx="1" fill="#89b4fa" fill-opacity="0.5"/>
+
+  <text x="227" y="206" text-anchor="middle" fill="#f38ba8" font-size="10" font-family="monospace">1 straggler blocks the whole join stage</text>
+
+  <!-- RIGHT bars: 4 splits + 5 coalesced -->
+  <!-- splits: 25 KiB → 68 px -->
+  <text x="548" y="112" text-anchor="end" fill="#fab387" font-size="10" font-family="monospace">split-0</text>
+  <rect x="552" y="102" width="68" height="12" rx="2" fill="#fab387" fill-opacity="0.85"/>
+  <text x="548" y="126" text-anchor="end" fill="#fab387" font-size="10" font-family="monospace">split-1</text>
+  <rect x="552" y="116" width="68" height="12" rx="2" fill="#fab387" fill-opacity="0.85"/>
+  <text x="548" y="140" text-anchor="end" fill="#fab387" font-size="10" font-family="monospace">split-2</text>
+  <rect x="552" y="130" width="68" height="12" rx="2" fill="#fab387" fill-opacity="0.85"/>
+  <text x="548" y="154" text-anchor="end" fill="#fab387" font-size="10" font-family="monospace">split-3</text>
+  <rect x="552" y="144" width="68" height="12" rx="2" fill="#fab387" fill-opacity="0.85"/>
+
+  <!-- bracket for 4 splits -->
+  <polyline points="622,102 628,102 628,156 622,156" stroke="#f38ba8" stroke-width="1.5" fill="none"/>
+  <line x1="628" y1="129" x2="643" y2="129" stroke="#f38ba8" stroke-width="1" marker-end="url(#r)"/>
+  <text x="646" y="124" fill="#f38ba8" font-size="9" font-family="monospace">1 hot bucket</text>
+  <text x="646" y="136" fill="#fab387" font-size="9" font-family="monospace">→ 4 splits by</text>
+  <text x="646" y="148" fill="#fab387" font-size="9" font-family="monospace">mapper range</text>
+
+  <!-- normal coalesced (right) -->
+  <text x="548" y="173" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">coal-1</text>
+  <rect x="552" y="163" width="15" height="11" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="548" y="187" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">coal-2</text>
+  <rect x="552" y="177" width="15" height="11" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="548" y="201" text-anchor="end" fill="#45475a" font-size="10" font-family="monospace">coal-3,4</text>
+  <rect x="552" y="191" width="5" height="11" rx="1" fill="#89b4fa" fill-opacity="0.5"/>
+
+  <text x="672" y="216" text-anchor="middle" fill="#a6e3a1" font-size="10" font-family="monospace">9 balanced tasks (4 splits + 5 coalesced)</text>
+
+  <!-- ══ AQE BAND ══ -->
+  <rect x="20" y="224" width="860" height="52" rx="7" fill="#1d1a2d" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="450" y="241" text-anchor="middle" fill="#cba6f7" font-size="11" font-weight="bold" font-family="monospace">AQE  —  fires post-shuffle, before reduce tasks start</text>
+  <rect x="38" y="248" width="360" height="20" rx="3" fill="#2d2040" stroke="#cba6f7" stroke-width="1"/>
+  <text x="218" y="262" text-anchor="middle" fill="#cba6f7" font-size="10" font-family="monospace">① CoalesceShufflePartitions  200 → 5</text>
+  <rect x="502" y="248" width="360" height="20" rx="3" fill="#2a1d10" stroke="#fab387" stroke-width="1"/>
+  <text x="682" y="262" text-anchor="middle" fill="#fab387" font-size="10" font-family="monospace">② OptimizeSkewedJoin  P-0 → 4 sub-tasks</text>
+
+  <!-- arrows from AQE band down -->
+  <line x1="218" y1="276" x2="218" y2="300" stroke="#585b70" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#a)"/>
+  <text x="220" y="294" fill="#585b70" font-size="9" font-family="monospace">straggler persists</text>
+  <line x1="682" y1="276" x2="682" y2="300" stroke="#cba6f7" stroke-width="1.5" marker-end="url(#p)"/>
+  <text x="684" y="294" fill="#cba6f7" font-size="9" font-family="monospace">PartialReducerPartitionSpec ×4</text>
+
+  <!-- ══ TASK GANTT ══ -->
+  <text x="30" y="316" fill="#585b70" font-size="10" font-family="monospace">TASK EXECUTION  (5 tasks · 270px = 15s)</text>
+  <text x="465" y="316" fill="#585b70" font-size="10" font-family="monospace">TASK EXECUTION  (9 tasks · same scale)</text>
+
+  <!-- LEFT axis -->
+  <line x1="152" y1="323" x2="422" y2="323" stroke="#313244" stroke-width="1"/>
+  <text x="152" y="333" text-anchor="middle" fill="#45475a" font-size="9" font-family="monospace">0s</text>
+  <text x="242" y="333" text-anchor="middle" fill="#45475a" font-size="9" font-family="monospace">5s</text>
+  <text x="332" y="333" text-anchor="middle" fill="#45475a" font-size="9" font-family="monospace">10s</text>
+  <text x="422" y="333" text-anchor="middle" fill="#45475a" font-size="9" font-family="monospace">15s</text>
+  <line x1="242" y1="323" x2="242" y2="438" stroke="#313244" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="332" y1="323" x2="332" y2="438" stroke="#313244" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="422" y1="323" x2="422" y2="438" stroke="#313244" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <!-- LEFT tasks (18 px/s) -->
+  <text x="147" y="350" text-anchor="end" fill="#f38ba8" font-size="10" font-family="monospace">task-0</text>
+  <rect x="152" y="338" width="270" height="16" rx="3" fill="#f38ba8" fill-opacity="0.85"/>
+  <text x="154" y="350" fill="#1e1e2e" font-size="9" font-weight="bold" font-family="monospace">⚡ 9,019 rows  (straggler)</text>
+
+  <text x="147" y="369" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">task-1</text>
+  <rect x="152" y="357" width="31" height="13" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="147" y="386" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">task-2</text>
+  <rect x="152" y="374" width="32" height="13" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="147" y="403" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">task-3</text>
+  <rect x="152" y="391" width="18" height="13" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="147" y="420" text-anchor="end" fill="#45475a" font-size="10" font-family="monospace">task-4</text>
+  <rect x="152" y="408" width="5" height="13" rx="1" fill="#89b4fa" fill-opacity="0.5"/>
+
+  <line x1="424" y1="338" x2="424" y2="354" stroke="#f38ba8" stroke-width="2"/>
+  <text x="426" y="350" fill="#f38ba8" font-size="10" font-weight="bold" font-family="monospace">wall ≈ 15s  ✗</text>
+
+  <!-- RIGHT axis -->
+  <line x1="552" y1="323" x2="862" y2="323" stroke="#313244" stroke-width="1"/>
+  <text x="552" y="333" text-anchor="middle" fill="#45475a" font-size="9" font-family="monospace">0s</text>
+  <text x="655" y="333" text-anchor="middle" fill="#45475a" font-size="9" font-family="monospace">5s</text>
+  <text x="758" y="333" text-anchor="middle" fill="#45475a" font-size="9" font-family="monospace">10s</text>
+  <text x="862" y="333" text-anchor="middle" fill="#45475a" font-size="9" font-family="monospace">15s</text>
+  <line x1="655" y1="323" x2="655" y2="440" stroke="#313244" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <!-- RIGHT tasks (20 px/s · splits ~2s → 40px · coal ~1s → 20px) -->
+  <text x="547" y="349" text-anchor="end" fill="#fab387" font-size="10" font-family="monospace">split-0</text>
+  <rect x="552" y="338" width="40" height="12" rx="2" fill="#fab387" fill-opacity="0.85"/>
+  <text x="547" y="363" text-anchor="end" fill="#fab387" font-size="10" font-family="monospace">split-1</text>
+  <rect x="552" y="352" width="40" height="12" rx="2" fill="#fab387" fill-opacity="0.85"/>
+  <text x="547" y="377" text-anchor="end" fill="#fab387" font-size="10" font-family="monospace">split-2</text>
+  <rect x="552" y="366" width="40" height="12" rx="2" fill="#fab387" fill-opacity="0.85"/>
+  <text x="547" y="391" text-anchor="end" fill="#fab387" font-size="10" font-family="monospace">split-3</text>
+  <rect x="552" y="380" width="40" height="12" rx="2" fill="#fab387" fill-opacity="0.85"/>
+
+  <text x="547" y="407" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">coal-0</text>
+  <rect x="552" y="396" width="20" height="12" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="547" y="422" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">coal-1</text>
+  <rect x="552" y="411" width="21" height="12" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="547" y="437" text-anchor="end" fill="#585b70" font-size="10" font-family="monospace">coal-2,3,4</text>
+  <rect x="552" y="426" width="12" height="12" rx="1" fill="#89b4fa" fill-opacity="0.6"/>
+
+  <!-- wall time marker right (at 2s = 40px → x=592) -->
+  <line x1="594" y1="338" x2="594" y2="438" stroke="#a6e3a1" stroke-width="2"/>
+  <text x="596" y="388" fill="#a6e3a1" font-size="10" font-weight="bold" font-family="monospace">wall ≈ 2s  ✓</text>
+
+  <text x="672" y="455" text-anchor="middle" fill="#74c7ec" font-size="10" font-family="monospace">build side (products): 1 row replicated ×4 — one copy per split</text>
+
+  <!-- ══ KEY MECHANICS ══ -->
+  <rect x="20" y="465" width="860" height="116" rx="7" fill="#181825" stroke="#313244" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="30" y="482" fill="#585b70" font-size="10" font-family="monospace">KEY MECHANICS</text>
+
+  <text x="40" y="499" fill="#cdd6f4" font-size="10" font-weight="bold" font-family="monospace">① Coalesce floor — advisoryPartitionSizeInBytes alone is not enough:</text>
+  <text x="40" y="514" fill="#74c7ec" font-size="10" font-family="monospace">   targetSize = max(advisory,  max(minPartitionSize,  ⌈totalBytes ÷ minPartitionNum⌉))</text>
+  <text x="40" y="528" fill="#585b70" font-size="10" font-family="monospace">   minPartitionSize defaults to 1 MB.  Fix: set both minPartitionSize=1b and minPartitionNum=20.</text>
+
+  <text x="40" y="546" fill="#cdd6f4" font-size="10" font-weight="bold" font-family="monospace">② Skew split requires ≥ 2 map tasks writing to the hot-key bucket (split is by mapper index range).</text>
+  <text x="40" y="561" fill="#585b70" font-size="10" font-family="monospace">   1 Parquet file → 1 map task → 0 splits.  Fix: repartition(N) inside the query plan before the join.</text>
+
+  <text x="40" y="576" fill="#cdd6f4" font-size="10" font-weight="bold" font-family="monospace">③ Detection threshold: size &gt; max(skewedPartitionFactor × median,  skewedPartitionThresholdInBytes)</text>
+
+  <!-- ══ LEGEND ══ -->
+  <rect x="20" y="588" width="860" height="24" rx="5" fill="#181825" stroke="#313244" stroke-width="1"/>
+  <rect x="36" y="598" width="11" height="9" rx="2" fill="#f38ba8" fill-opacity="0.85"/>
+  <text x="51" y="606" fill="#585b70" font-size="10" font-family="monospace">hot-key straggler</text>
+  <rect x="178" y="598" width="11" height="9" rx="2" fill="#fab387" fill-opacity="0.85"/>
+  <text x="193" y="606" fill="#585b70" font-size="10" font-family="monospace">skew split sub-task</text>
+  <rect x="322" y="598" width="11" height="9" rx="2" fill="#89b4fa" fill-opacity="0.7"/>
+  <text x="337" y="606" fill="#585b70" font-size="10" font-family="monospace">coalesced / normal</text>
+  <rect x="468" y="598" width="11" height="9" rx="2" fill="#2d2040" stroke="#cba6f7" stroke-width="1"/>
+  <text x="483" y="606" fill="#585b70" font-size="10" font-family="monospace">AQE rule</text>
+  <text x="570" y="606" fill="#45475a" font-size="10" font-family="monospace">UI: SortMergeJoin(skew=true) · AQEShuffleRead(coalesced and skewed) · 9 tasks</text>
+</svg>
