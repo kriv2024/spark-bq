@@ -175,7 +175,7 @@ key.json
 src/_version.py
 
 # Generated notebook resources (SVGs produced during study sessions)
-notebooks/resources/executor_jvm_memory_map.svg
+notebooks/resources/
 
 # pip install artifact files (created when running: pip install pkg==version)
 =*
