@@ -1,0 +1,187 @@
+<svg width="900" height="560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr-red"    markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#f38ba8"/></marker>
+    <marker id="arr-green"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#a6e3a1"/></marker>
+    <marker id="arr-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#fab387"/></marker>
+    <pattern id="stripe-evict" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect width="8" height="8" fill="#0d1f15"/>
+      <line x1="0" y1="0" x2="8" y2="8" stroke="#a6e3a1" stroke-width="1.5" opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="560" fill="#1e1e2e" rx="12"/>
+
+  <!-- TITLE -->
+  <text x="450" y="28" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="bold" font-family="monospace">Unified Memory Model — Borrowing Scenarios</text>
+  <text x="450" y="44" text-anchor="middle" fill="#585b70" font-size="10" font-family="monospace">Spark Managed Pool ~434 MB  ·  storageFraction floor ~217 MB  ·  soft boundary enables bidirectional borrowing</text>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENARIO A — Empty cache, execution expands
+  ══════════════════════════════════════════════════════════════ -->
+  <rect x="15" y="55" width="270" height="380" rx="6" fill="#181825" stroke="#313244" stroke-width="1.5"/>
+  <text x="150" y="73" text-anchor="middle" fill="#cba6f7" font-size="11" font-weight="bold" font-family="monospace">Scenario A</text>
+  <text x="150" y="87" text-anchor="middle" fill="#cdd6f4" font-size="9" font-family="monospace">Empty cache  ·  large aggregation</text>
+
+  <!-- Spark Managed Pool A -->
+  <rect x="25" y="97" width="250" height="240" rx="5" fill="#1a1828" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="150" y="112" text-anchor="middle" fill="#cba6f7" font-size="9" font-weight="bold" font-family="monospace">Spark Managed Pool  ~434 MB</text>
+
+  <!-- Storage A: empty / idle (dashed border, dim fill) -->
+  <rect x="33" y="119" width="234" height="110" rx="3" fill="#0a150d" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="150" y="138" text-anchor="middle" fill="#a6e3a1" font-size="9" font-weight="bold" font-family="monospace">Storage Pool  ~217 MB</text>
+  <text x="150" y="153" text-anchor="middle" fill="#585b70" font-size="8.5" font-family="monospace">empty — no cached data</text>
+  <text x="150" y="172" text-anchor="middle" fill="#313244" font-size="10" font-family="monospace">·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·</text>
+  <text x="150" y="188" text-anchor="middle" fill="#313244" font-size="10" font-family="monospace">·  ·  idle / available  ·  ·  ·</text>
+  <text x="150" y="204" text-anchor="middle" fill="#313244" font-size="10" font-family="monospace">·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·</text>
+  <text x="150" y="220" text-anchor="middle" fill="#313244" font-size="10" font-family="monospace">·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·</text>
+
+  <!-- Up arrow: execution borrows upward into storage zone -->
+  <line x1="150" y1="229" x2="150" y2="222" stroke="#f38ba8" stroke-width="2" marker-end="url(#arr-red)"/>
+
+  <!-- Soft boundary A -->
+  <line x1="33" y1="229" x2="267" y2="229" stroke="#cba6f7" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="150" y="227" text-anchor="middle" fill="#585b70" font-size="7.5" font-family="monospace">— — soft boundary — —</text>
+
+  <!-- Execution A: full size, expanding upward -->
+  <rect x="33" y="229" width="234" height="104" rx="3" fill="#200d0d" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="150" y="248" text-anchor="middle" fill="#f38ba8" font-size="9" font-weight="bold" font-family="monospace">Execution Pool  ~217 MB</text>
+  <text x="150" y="263" text-anchor="middle" fill="#f38ba8" font-size="8.5" font-family="monospace">expands into idle storage space</text>
+  <text x="150" y="278" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">effective size  →  ~434 MB</text>
+  <text x="150" y="293" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">HashAggregate / Sort runs</text>
+  <text x="150" y="313" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold" font-family="monospace">NO SPILL</text>
+  <text x="150" y="327" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">full pool available</text>
+
+  <!-- Outcome A -->
+  <rect x="25" y="347" width="250" height="72" rx="4" fill="#0d1f0d" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="150" y="363" text-anchor="middle" fill="#a6e3a1" font-size="9" font-weight="bold" font-family="monospace">OUTCOME: No spill</text>
+  <text x="150" y="378" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">Execution borrows all idle storage</text>
+  <text x="150" y="393" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">space  →  uses full ~434 MB</text>
+  <text x="150" y="408" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">cache empty: nothing to evict</text>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENARIO B — Partial eviction above floor
+  ══════════════════════════════════════════════════════════════ -->
+  <rect x="315" y="55" width="270" height="380" rx="6" fill="#181825" stroke="#313244" stroke-width="1.5"/>
+  <text x="450" y="73" text-anchor="middle" fill="#cba6f7" font-size="11" font-weight="bold" font-family="monospace">Scenario B</text>
+  <text x="450" y="87" text-anchor="middle" fill="#cdd6f4" font-size="9" font-family="monospace">Cache present  ·  eviction above floor</text>
+
+  <!-- Spark Managed Pool B -->
+  <rect x="325" y="97" width="250" height="240" rx="5" fill="#1a1828" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="450" y="112" text-anchor="middle" fill="#cba6f7" font-size="9" font-weight="bold" font-family="monospace">Spark Managed Pool  ~434 MB</text>
+
+  <!-- Storage B: evictable zone (top, striped) + protected floor (bottom, solid) -->
+  <rect x="333" y="119" width="234" height="55" rx="0" fill="url(#stripe-evict)"/>
+  <rect x="333" y="174" width="234" height="55" rx="0" fill="#0d1f15"/>
+  <rect x="333" y="119" width="234" height="110" rx="3" fill="none" stroke="#a6e3a1" stroke-width="1.5"/>
+
+  <text x="450" y="135" text-anchor="middle" fill="#f38ba8" font-size="8.5" font-weight="bold" font-family="monospace">evictable  ~183 MB</text>
+  <text x="450" y="149" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">above storageFraction floor</text>
+  <text x="450" y="163" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">execution can claim this space</text>
+
+  <!-- Floor divider line inside storage -->
+  <line x1="333" y1="174" x2="567" y2="174" stroke="#74c7ec" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <text x="450" y="186" text-anchor="middle" fill="#74c7ec" font-size="8" font-family="monospace">storageFraction floor  ~217 MB</text>
+  <text x="450" y="200" text-anchor="middle" fill="#a6e3a1" font-size="8.5" font-weight="bold" font-family="monospace">protected  ~217 MB</text>
+  <text x="450" y="214" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">cannot be evicted by execution</text>
+  <text x="450" y="225" text-anchor="middle" fill="#585b70" font-size="7.5" font-family="monospace">minimum storage guarantee</text>
+
+  <!-- Up arrow: evicted space flows to execution -->
+  <line x1="450" y1="229" x2="450" y2="222" stroke="#f38ba8" stroke-width="2" marker-end="url(#arr-red)"/>
+
+  <!-- Soft boundary B -->
+  <line x1="333" y1="229" x2="567" y2="229" stroke="#cba6f7" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="450" y="227" text-anchor="middle" fill="#585b70" font-size="7.5" font-family="monospace">— — soft boundary — —</text>
+
+  <!-- Execution B: active + gained evicted space -->
+  <rect x="333" y="229" width="234" height="104" rx="3" fill="#200d0d" stroke="#f38ba8" stroke-width="1.5"/>
+  <text x="450" y="248" text-anchor="middle" fill="#f38ba8" font-size="9" font-weight="bold" font-family="monospace">Execution Pool</text>
+  <text x="450" y="263" text-anchor="middle" fill="#f38ba8" font-size="8.5" font-family="monospace">gained ~183 MB evicted space</text>
+  <text x="450" y="278" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">Sort / SortMergeJoin runs</text>
+  <text x="450" y="293" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">effective size ~217+183 = ~400 MB</text>
+  <text x="450" y="313" text-anchor="middle" fill="#a6e3a1" font-size="10" font-weight="bold" font-family="monospace">NO SPILL</text>
+  <text x="450" y="327" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">evicted blocks recomputed on next hit</text>
+
+  <!-- Outcome B -->
+  <rect x="325" y="347" width="250" height="72" rx="4" fill="#0d1f0d" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="450" y="363" text-anchor="middle" fill="#a6e3a1" font-size="9" font-weight="bold" font-family="monospace">OUTCOME: No spill</text>
+  <text x="450" y="378" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">~183 MB above floor evicted silently</text>
+  <text x="450" y="393" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">Sort gets enough space to run</text>
+  <text x="450" y="408" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">no logs; Storage tab entries disappear</text>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCENARIO C — Floor blocks eviction → SPILL
+  ══════════════════════════════════════════════════════════════ -->
+  <rect x="615" y="55" width="270" height="380" rx="6" fill="#181825" stroke="#313244" stroke-width="1.5"/>
+  <text x="750" y="73" text-anchor="middle" fill="#cba6f7" font-size="11" font-weight="bold" font-family="monospace">Scenario C</text>
+  <text x="750" y="87" text-anchor="middle" fill="#cdd6f4" font-size="9" font-family="monospace">Floor blocks eviction  ·  SPILL</text>
+
+  <!-- Spark Managed Pool C -->
+  <rect x="625" y="97" width="250" height="240" rx="5" fill="#1a1828" stroke="#cba6f7" stroke-width="1.5"/>
+  <text x="750" y="112" text-anchor="middle" fill="#cba6f7" font-size="9" font-weight="bold" font-family="monospace">Spark Managed Pool  ~434 MB</text>
+
+  <!-- Storage C: fully solid / at floor — all protected -->
+  <rect x="633" y="119" width="234" height="110" rx="3" fill="#0d1f15" stroke="#a6e3a1" stroke-width="1.5"/>
+  <text x="750" y="138" text-anchor="middle" fill="#a6e3a1" font-size="9" font-weight="bold" font-family="monospace">Storage Pool  ~217 MB</text>
+  <text x="750" y="153" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">cache at floor  ·  fully protected</text>
+
+  <!-- Floor line (here it's the entire storage region) -->
+  <line x1="633" y1="174" x2="867" y2="174" stroke="#74c7ec" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <text x="750" y="186" text-anchor="middle" fill="#74c7ec" font-size="8" font-family="monospace">storageFraction floor  ~217 MB</text>
+
+  <!-- Blocked indicator -->
+  <text x="750" y="202" text-anchor="middle" fill="#f38ba8" font-size="8.5" font-weight="bold" font-family="monospace">LOCKED — cannot evict</text>
+  <text x="750" y="216" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">no evictable blocks remain</text>
+  <!-- Crossed-out arrows showing execution cannot borrow -->
+  <line x1="680" y1="222" x2="820" y2="222" stroke="#f38ba8" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5"/>
+  <line x1="695" y1="218" x2="805" y2="226" stroke="#f38ba8" stroke-width="1.2" opacity="0.6"/>
+  <line x1="695" y1="226" x2="805" y2="218" stroke="#f38ba8" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- Soft boundary C -->
+  <line x1="633" y1="229" x2="867" y2="229" stroke="#cba6f7" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="750" y="227" text-anchor="middle" fill="#585b70" font-size="7.5" font-family="monospace">— — soft boundary — —</text>
+
+  <!-- Execution C: exhausted, no room -->
+  <rect x="633" y="229" width="234" height="104" rx="3" fill="#200d0d" stroke="#f38ba8" stroke-width="2"/>
+  <text x="750" y="248" text-anchor="middle" fill="#f38ba8" font-size="9" font-weight="bold" font-family="monospace">Execution Pool  FULL</text>
+  <text x="750" y="263" text-anchor="middle" fill="#f38ba8" font-size="8.5" font-family="monospace">Sort needs more memory</text>
+  <text x="750" y="278" text-anchor="middle" fill="#f38ba8" font-size="8.5" font-family="monospace">no evictable cache above floor</text>
+  <text x="750" y="293" text-anchor="middle" fill="#fab387" font-size="9.5" font-weight="bold" font-family="monospace">→ SPILL TO DISK</text>
+  <text x="750" y="308" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">intermediate data written to</text>
+  <text x="750" y="321" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">local executor temp directory</text>
+
+  <!-- Down arrow to spill outcome -->
+  <line x1="750" y1="337" x2="750" y2="346" stroke="#fab387" stroke-width="2" marker-end="url(#arr-orange)"/>
+
+  <!-- Outcome C: spill box (orange border) -->
+  <rect x="625" y="347" width="250" height="72" rx="4" fill="#1f1510" stroke="#fab387" stroke-width="1.5"/>
+  <text x="750" y="363" text-anchor="middle" fill="#fab387" font-size="9" font-weight="bold" font-family="monospace">OUTCOME: Spill to disk</text>
+  <text x="750" y="378" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">Shuffle Spill (Disk) &gt; 0</text>
+  <text x="750" y="393" text-anchor="middle" fill="#cdd6f4" font-size="8.5" font-family="monospace">visible in Stages tab of Spark UI</text>
+  <text x="750" y="408" text-anchor="middle" fill="#585b70" font-size="8" font-family="monospace">fix: raise memory.fraction or repartition</text>
+
+  <!-- ══════════════════════════════════════════════════════════
+       LEGEND STRIP
+  ══════════════════════════════════════════════════════════════ -->
+  <rect x="15" y="447" width="871" height="96" rx="5" fill="#181825" stroke="#313244" stroke-width="1"/>
+  <text x="28" y="464" fill="#585b70" font-size="10" font-family="monospace">BORROWING RULES  (spark.memory.fraction=0.6  ·  spark.memory.storageFraction=0.5  ·  1 GB executor)</text>
+
+  <!-- Color legend squares -->
+  <rect x="28" y="472" width="10" height="10" fill="#0a150d" stroke="#a6e3a1" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="44" y="481" fill="#cdd6f4" font-size="9.5" font-family="monospace">idle storage (borrowable by execution)</text>
+  <rect x="270" y="472" width="10" height="10" fill="url(#stripe-evict)" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="286" y="481" fill="#cdd6f4" font-size="9.5" font-family="monospace">evictable cache (above floor)</text>
+  <rect x="510" y="472" width="10" height="10" fill="#0d1f15" stroke="#a6e3a1" stroke-width="1"/>
+  <text x="526" y="481" fill="#cdd6f4" font-size="9.5" font-family="monospace">protected cache (at/below floor)</text>
+  <rect x="750" y="472" width="10" height="10" fill="#200d0d" stroke="#f38ba8" stroke-width="1"/>
+  <text x="766" y="481" fill="#cdd6f4" font-size="9.5" font-family="monospace">execution</text>
+
+  <text x="28" y="498" fill="#a6e3a1" font-size="9.5" font-family="monospace">A:</text>
+  <text x="44" y="498" fill="#cdd6f4" font-size="9.5" font-family="monospace">cache empty  →  execution borrows all idle storage  →  effective execution pool = ~434 MB  →  NO SPILL</text>
+  <text x="28" y="513" fill="#a6e3a1" font-size="9.5" font-family="monospace">B:</text>
+  <text x="44" y="513" fill="#cdd6f4" font-size="9.5" font-family="monospace">cache &gt; floor  →  execution silently evicts blocks above ~217 MB floor  →  sort gets extra space  →  NO SPILL</text>
+  <text x="28" y="528" fill="#fab387" font-size="9.5" font-family="monospace">C:</text>
+  <text x="44" y="528" fill="#cdd6f4" font-size="9.5" font-family="monospace">cache at floor  →  nothing evictable; execution pool exhausted  →  SPILL TO DISK  →  Shuffle Spill (Disk) &gt; 0</text>
+  <text x="28" y="536" fill="#45475a" font-size="8.5" font-family="monospace">&#x2015;&#x2015;  eviction is silent (no logs)  ·  detect via Storage tab drops  ·  fix spill: lower storageFraction | raise memory.fraction | repartition  &#x2015;&#x2015;</text>
+
+</svg>
