@@ -24,8 +24,8 @@
 | 03 | Partitioning & skew | 1 — Execution mechanics | ✅ done | "A stage has one task running 10× longer. What do you do?" |
 | 04 | Join strategies | 2 — Optimization mechanics | ✅ done | "A join that used to take 3 min now takes 20 min. Where do you start?" |
 | 05 | Catalyst optimizer | 2 — Optimization mechanics | ✅ done | "What is predicate pushdown and why does it matter?" |
-| 06 | AQE deep dive | 2 — Optimization mechanics | 🔄 in progress | "What are AQE's three features and when does each fire?" |
-| 07 | Memory model & spill | 3 — Resource management | 📋 planned | "A task shows high GC time and disk spill. What is the root cause?" |
+| 06 | AQE deep dive | 2 — Optimization mechanics | ✅ done | "What are AQE's three features and when does each fire?" |
+| 07 | Memory model & spill | 3 — Resource management | 🔄 in progress | "A task shows high GC time and disk spill. What is the root cause?" |
 | 08 | Caching & persistence | 3 — Resource management | 📋 planned | "When should you cache? What are the trade-offs between storage levels?" |
 | 09 | Data formats & storage-layer I/O | 4 — Storage & I/O | 📋 planned | "Why does reading a filtered Parquet file outperform filtered CSV by 10×?" |
 | 10 | Pipeline design patterns | 5 — Production engineering | 📋 planned | "How do you make a Spark job idempotent?" |
@@ -509,8 +509,8 @@ Job is slow or failing →
 | 04 — Join strategies | — | ✅ | — |
 | 05 — Catalyst optimizer | — | ✅ | — |
 | 06 — AQE deep dive | — | ✅ | — |
-| 07 — Memory model & spill | — | 🔄 | — |
-| 08 — Caching & persistence | — | — | — |
+| 07 — Memory model & spill | 2026-06-14 | ✅ | — |
+| 08 — Caching & persistence | 2026-07-04 | 🔄 | — |
 | 09 — Data formats & I/O | — | — | — |
 | 10 — Pipeline design | — | — | — |
 | 11 — GCP / Dataproc | — | — | — |
